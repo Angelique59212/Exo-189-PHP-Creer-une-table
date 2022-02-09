@@ -83,7 +83,7 @@ try {
     echo "Table user créé avec succès";
 }
 catch(PDOException $e) {
-    echo "Erreur de connexion";
+    die();
 }
 
 try {
