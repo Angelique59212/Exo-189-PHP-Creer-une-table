@@ -1,5 +1,8 @@
 <?php
 
+require 'Config.php';
+require 'Connect.php';
+
 /**
  * Créez via PhpMyAdmin une nouvelle base de données table_test_phpmyadmin
  * Toujours via PhpMyAdmin, créez dans cette base de données deux nouvelles tables   utilisateur  ET   produit
@@ -62,6 +65,41 @@
 // TODO Votre code ici.
 
 try {
-    ...
+    $myConnexion = Connect::dbConnect();
+    $sql = "
+        CREATE TABLE user (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY,
+            name VARCHAR(50) NOT NULL,
+            first_name VARCHAR(100) NOT NULL,
+            password VARCHAR(100) NOT NULL,
+            address VARCHAR(255) NOT NULL,
+            postal_code SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
+            country VARCHAR(60) NOT NULL,
+            date_join DATETIME DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(mail)
+        )
+    ";
+    $myConnexion->exec($sql);
+    echo "Table user créé avec succès";
 }
-catch...
+catch(PDOException $e) {
+    echo "Erreur de connexion";
+}
+
+try {
+    $myConnexion = Connect::dbConnect();
+    $sql = "
+        CREATE TABLE products (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY,
+            title VARCHAR(60) NOT NULL,
+            price DOUBLE UNSIGNED  NOT NULL,
+            short_description VARCHAR(255) NOT NULL,
+            long_description TEXT() NOT NULL,
+        )
+    ";
+    $myConnexion->exec($sql);
+    echo "Table products créé avec succès";
+}
+catch(PDOException $e) {
+    die();
+}
