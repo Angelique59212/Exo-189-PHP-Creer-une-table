@@ -33,8 +33,6 @@ require 'Connect.php';
 // FIXME => Aucun code pour cette partie de l'exo, tout se passe sur PhpMyAdmin.
 
 
-
-
 /**
  * Créez via PhpMyAdmin une nouvelle base de données table_test_php
  * Créez dans cette base de données deux nouvelles tables   utilisateur  ET   produit VIA PHP, en passant par une requête.
@@ -67,39 +65,34 @@ require 'Connect.php';
 try {
     $myConnexion = Connect::dbConnect();
     $sql = "
-        CREATE TABLE user (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY,
-            name VARCHAR(50) NOT NULL,
-            first_name VARCHAR(100) NOT NULL,
-            password VARCHAR(100) NOT NULL,
-            address VARCHAR(255) NOT NULL,
-            postal_code SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL,
-            country VARCHAR(60) NOT NULL,
-            date_join DATETIME DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(mail)
-        )
+            CREATE TABLE user (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(50) NOT NULL,
+                first_name VARCHAR(50) NOT NULL,
+                mail VARCHAR(100) NOT NULL,
+                password VARCHAR(100) NOT NULL,
+                address VARCHAR(255) NOT NULL,
+                postal_code SMALLINT UNSIGNED NOT NULL,
+                country VARCHAR(60) NOT NULL,
+                date_join DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(mail)             
+            )  
+    ";
+    $sql2 = "
+            CREATE TABLE products (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(60) NOT NULL,
+                price DOUBLE UNSIGNED  NOT NULL,
+                short_description VARCHAR(255) NOT NULL,
+                long_description TEXT NOT NULL
+            )
     ";
     $myConnexion->exec($sql);
-    echo "Table user créé avec succès";
-}
-catch(PDOException $e) {
-    die();
+    echo "Table user2 créé avec succès";
+    $myConnexion->exec($sql2);
+    echo "Table products créé avec succès";
+} catch (PDOException $e) {
+    echo $e->getMessage();
 }
 
-try {
-    $myConnexion = Connect::dbConnect();
-    $sql = "
-        CREATE TABLE products (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY,
-            title VARCHAR(60) NOT NULL,
-            price DOUBLE UNSIGNED  NOT NULL,
-            short_description VARCHAR(255) NOT NULL,
-            long_description TEXT() NOT NULL,
-        )
-    ";
-    $myConnexion->exec($sql);
-    echo "Table products créé avec succès";
-}
-catch(PDOException $e) {
-    die();
-}
+
